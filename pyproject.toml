@@ -11,18 +11,22 @@ description = "Shared framework for DataStage-to-Databricks migrated pipelines"
 requires-python = ">=3.10"
 
 dependencies = [
-    "pyspark>=3.5.0",
-    "delta-spark>=3.0.0",
+ "pyspark>=3.5.0",
+ "delta-spark>=3.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.4",
-    "pytest-cov>=4.1",
-    "pytest-html>=4.0",
-    "chispa>=0.10",
-    "ruff>=0.5.0",
+ "pytest>=7.4",
+ "pytest-cov>=4.1",
+ "pytest-html>=4.0",
+ "chispa>=0.10",
+ "ruff>=0.5.0",
+ "pylint>=3.2",
 ]
+
+[tool.setuptools.packages.find]
+include = ["framework*", "jobs*", "input*", "output*", "prompts*"]
 
 # ---------------------------------------------------------------------------
 # PYTEST — test runner + coverage gate

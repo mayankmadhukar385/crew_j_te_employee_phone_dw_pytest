@@ -41,7 +41,7 @@ import uuid
 from datetime import datetime
 from typing import Any, Optional
 
-from pyspark.sql import Row, SparkSession
+from pyspark.sql import SparkSession
 from pyspark.sql import types as T
 
 from framework.utils.databricks_context import get_databricks_context

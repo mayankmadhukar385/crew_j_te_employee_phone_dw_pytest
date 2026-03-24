@@ -1,4 +1,4 @@
-#mayank update here 3-5 line
+#mayank update here 3-29 line
 
 [build-system]
 requires = ["setuptools>=68.0", "wheel"]
@@ -27,6 +27,23 @@ dev = [
 
 [tool.setuptools.packages.find]
 include = ["framework*", "jobs*", "input*", "output*", "prompts*"]
+
+[tool.pylint.main]
+py-version = "3.10"
+
+[tool.pylint."messages control"]
+disable = [
+  "too-few-public-methods",
+  "too-many-locals",
+  "too-many-return-statements",
+  "broad-exception-caught",
+  "import-outside-toplevel",
+  "singleton-comparison",
+  "no-else-return",
+]
+
+[tool.pylint.format]
+max-line-length = 250
 
 # ---------------------------------------------------------------------------
 # PYTEST — test runner + coverage gate

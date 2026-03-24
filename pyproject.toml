@@ -56,7 +56,7 @@ max-line-length = 250
 # PYTEST — test runner + coverage gate
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
-testpaths = ["tests", "jobs", "output/project/tests","output/project/jobs/tests"]
+testpaths = ["tests", "jobs"]
 addopts = [
   "--cov=framework",
   "--cov=jobs",

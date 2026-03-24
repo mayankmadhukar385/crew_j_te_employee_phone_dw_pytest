@@ -18,7 +18,6 @@ Usage:
 
 from __future__ import annotations
 
-import hashlib
 import logging
 import uuid
 from datetime import datetime
@@ -882,5 +881,3 @@ class DQValidator:
         else:
             logger.warning(f"DQ: unrecognized rule '{rule}' for column '{column}', skipping")
             return None
-
-

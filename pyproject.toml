@@ -40,6 +40,7 @@ disable = [
   "import-outside-toplevel",
   "singleton-comparison",
   "no-else-return",
+  "invalid-unary-operand-type"
 ]
 
 [tool.pylint.format]

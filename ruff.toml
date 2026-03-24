@@ -1,0 +1,35 @@
+line-length = 120
+target-version = "py310"
+
+[lint]
+select = [
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "W",    # pycodestyle warnings
+    "I",    # isort import ordering
+    "N",    # pep8-naming
+    "UP",   # pyupgrade
+    "S",    # bandit security checks
+    "B",    # bugbear
+    "A",    # builtins shadowing
+    "C4",   # comprehension simplify
+    "SIM",  # simplify expressions
+    "TCH",  # type-checking imports
+    "D",    # docstring enforcement
+]
+ignore = [
+    "D100",  # module docstring (too noisy for __init__.py)
+    "D104",  # package docstring
+    "S101",  # assert usage (we use assert in tests)
+]
+
+[lint.pydocstyle]
+convention = "google"
+
+[lint.isort]
+known-first-party = ["framework", "jobs"]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"

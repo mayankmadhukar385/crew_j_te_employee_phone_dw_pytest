@@ -1,0 +1,74 @@
+{
+  "xml_file": "CREW_J_TE_EMPLOYEE_PHONE_DW.xml",
+  "scenario": "single_parallel_job",
+  "total_jobs_found": 1,
+
+  "jobs": [
+    {
+      "job_name": "CREW_J_TE_EMPLOYEE_PHONE_DW",
+      "job_type": "parallel",
+      "description": "Reads from CREW_WSTELE_LND landing zone table and populates TE_EMPLOYEE_PHONE table in the Crew Data Warehouse.",
+      "stage_count": 30,
+      "stage_types": {
+        "TeradataConnectorPX": 2,
+        "CTransformerStage": 8,
+        "PxPivot": 7,
+        "PxCopy": 2,
+        "PxFunnel": 3,
+        "PxJoin": 5,
+        "PxAggregator": 2,
+        "PxSequentialFile": 1
+      },
+      "source_stages": [
+        "WSTELE_LND_TDC (TeradataConnectorPX)"
+      ],
+      "target_stages": [
+        "TE_EMPLOYEE_PHONE_DW (TeradataConnectorPX)",
+        "WSSEN_ERR_SEQ (PxSequentialFile)"
+      ],
+      "link_count": 32,
+      "parameters": [
+        {
+          "name": "$APT_STRING_PADCHAR",
+          "default_value": "0x20",
+          "description": "Pad character used when padding a string to fixed length"
+        },
+        {
+          "name": "ENV",
+          "default_value": "as pre-defined",
+          "description": "Environment parameters"
+        }
+      ],
+      "data_flow_summary": {
+        "source": "WSTELE_LND_TDC reads from Teradata table CREW_WSTELE_LND",
+        "split": "SEPARATE_PHTYPE_TFM fans out to 6 branches by phone type",
+        "branches": [
+          "EMERGENCY_IN_TFM  → ALL_REC_FNL (pass-through)",
+          "TEMP_TYPE_TFM     → ALL_REC_FNL (pass-through)",
+          "BASIC_TYPE_TFM    → BASIC_TYPE_PVT (pivot 5 fields) → BASIC_REC_TFM → HOME_BASIC_JNR → NEW_PRTY_TFM → ALL_REC_FNL",
+          "HOME_TYPE_CPY     → HOME_CPY (copy×3) → HOME_SEQ1/2/3_PVT → HOME_SEQ_FNL → INC_PRTY_TFM → HOME_BASIC_JNR → NEW_PRTY_TFM → ALL_REC_FNL",
+          "AWAY_TYPE_CPY     → AWAY_CPY → AWAY_SEQ1/2/3_PVT → AWAY_SEQ_FNL → AWAY_BASIC_JNR → (priority calc) → ALL_REC_FNL",
+          "LNK_OUT_ERR_SEQ   → WSSEN_ERR_SEQ (error file: $LOG_DIR/EMPLOYEE_PHONE.err)"
+        ],
+        "merge": "ALL_REC_FNL funnels 7 streams → NULL_VAL_TFM (final validation) → TE_EMPLOYEE_PHONE_DW"
+      }
+    }
+  ],
+
+  "orchestration": null,
+
+  "execution_plan": {
+    "jobs_to_process": ["CREW_J_TE_EMPLOYEE_PHONE_DW"],
+    "processing_order": [
+      {
+        "order": 1,
+        "job_name": "CREW_J_TE_EMPLOYEE_PHONE_DW",
+        "job_type": "parallel",
+        "depends_on": [],
+        "note": "Single parallel job — process independently for lineage extraction and code generation"
+      }
+    ],
+    "generates_orchestration": false,
+    "orchestration_type": null
+  }
+}

@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Test / Coverage reports
+reports/
+htmlcov/
+.coverage
+coverage.xml
+junit.xml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Databricks
+.databricks/
+
+# Output artifacts (regenerated per pipeline run)
+output/
+!output/.gitkeep

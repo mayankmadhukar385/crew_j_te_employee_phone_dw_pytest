@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "datastage-etl-framework"
+version = "1.0.0"
+description = "Shared framework for DataStage-to-Databricks migrated pipelines"
+requires-python = ">=3.10"
+
+dependencies = [
+    "pyspark>=3.5.0",
+    "delta-spark>=3.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "pytest-html>=4.0",
+    "chispa>=0.10",
+    "ruff>=0.5.0",
+]
+
+# ---------------------------------------------------------------------------
+# PYTEST — test runner + coverage gate
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests", "jobs"]
+addopts = [
+    "--cov=framework",
+    "--cov=jobs",
+    "--cov-report=term-missing",
+    "--cov-report=html:reports/htmlcov",
+    "--cov-report=xml:reports/coverage.xml",
+    "--cov-fail-under=80",
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "--junitxml=reports/junit.xml",
+]
+markers = [
+    "integration: marks tests requiring SparkSession (may be slow)",
+    "unit: marks fast unit tests with no Spark dependency",
+]
+
+# ---------------------------------------------------------------------------
+# COVERAGE
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+source = ["framework", "jobs"]
+branch = true
+omit = ["*/__init__.py", "notebooks/*", "tests/*", "*/tests/*"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.",
+    "raise NotImplementedError",
+]

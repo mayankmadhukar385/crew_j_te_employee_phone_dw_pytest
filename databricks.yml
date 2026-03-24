@@ -1,0 +1,57 @@
+bundle:
+  name: datastage-etl-framework
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: ${DATABRICKS_HOST}
+    variables:
+      catalog: dev_catalog
+      schema: etl_dev
+
+  production:
+    mode: production
+    workspace:
+      host: ${DATABRICKS_HOST}
+    variables:
+      catalog: prod_catalog
+      schema: etl_prod
+    permissions:
+      - group_name: "data-engineering"
+        level: CAN_MANAGE
+      - group_name: "data-ops"
+        level: CAN_VIEW
+
+sync:
+  include:
+    - "framework/**"
+    - "jobs/**"
+    - "notebooks/**"
+
+# Job definitions are added per migrated DataStage job.
+# Example structure — Step 3 generates the actual job entries:
+#
+# resources:
+#   jobs:
+#     jb_example_full_ld:
+#       name: "Jb_Example_Full_Ld"
+#       tasks:
+#         - task_key: run_pipeline
+#           notebook_task:
+#             notebook_path: notebooks/jb_example/run_pipeline
+#             base_parameters:
+#               config_path: jobs/jb_example/configs
+#               job_name: Jb_Example_Full_Ld
+#           new_cluster:
+#             spark_version: "14.3.x-scala2.12"
+#             node_type_id: "Standard_DS3_v2"
+#             num_workers: 2
+#           timeout_seconds: 3600
+#       schedule:
+#         quartz_cron_expression: "0 0 6 * * ?"
+#         timezone_id: "Asia/Kolkata"
+#       email_notifications:
+#         on_failure:
+#           - data-ops@company.com

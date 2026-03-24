@@ -44,6 +44,9 @@ disable = [
   "logging-fstring-interpolation",
   "too-many-statements",
   "unused-argument",
+  "too-many-instance-attributes",
+  "too-many-arguments",
+  "too-many-positional-arguments",
 ]
 
 [tool.pylint.format]
